@@ -119,7 +119,7 @@ When the client makes a `POST` request to `/api/posts/:id/comments`:
 
 - If the information about the _comment_ is valid:
 
-  - save the new _comment_ the the database.
+  - save the new _comment_ to the database.
   - return HTTP status code `201` (Created).
   - return the newly created _comment_.
 

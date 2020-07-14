@@ -8,26 +8,21 @@ router.post('/:id/comments', (req,res) => {
     comment.created_at = date;
     comment.updated_at = date;
 
-    if(!comment.text){
-            res.status(400).json({ errorMessage: "Please provide text for the comment." })
-        } else {
+    if(comment.text == 0){
+        res.status(400).json({ errorMessage: "Please provide text for the comment." })
+    } else {
+        db.findById(comment.post_id)
+        .then(post => {
+            if(post[0].id == comment.post_id){
             db.insertComment(comment)
-            .then(response => {
-                console.log(response)
-                if(response.post_id == comment.post_id){
-                    db.findCommentById(response.id)
-                    .then(comment => 
-                        res.status(201).json(comment)
-                        )
-                    .catch(err => 
-                        err.status(500).json({ error: "There was an error while saving the comment to the database" })
-                        )
-                    }{ res.status(500).json({message: "The post with the specified ID does not exist."}) }
-                }
-            )
-            .catch(err => res.status(500).json({ message: "sdfsdf" }))
+                .then(commentId => res.status(201).json(comment))
+                .catch(err => res.status(500).json({ error: "There was an error while saving the comment to the database" }))
+                    }
+                })
+        .catch(err => res.status(404).json({ message: "The post with the specified ID does not exist." }))
         }
-})
+    }
+)
 
 router.get('/:id/comments', ( req,res ) => {
     const postComments = req.body.id;
