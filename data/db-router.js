@@ -7,7 +7,7 @@ router.get('/posts', ( req, res )=> {
     .then(db => 
         res.status(200).json(db)
     )
-    .catch(err => console.log(err))
+    .catch(err => res.status(500).json({ error: "The posts information could not be retrieved." }))
 })
 
 router.post('/posts', ( req, res ) => {
@@ -15,6 +15,8 @@ router.post('/posts', ( req, res ) => {
     let date = Date()
     post.created_at = date;
     post.updated_at = date;
+
+    console.log(post)
 
     try{
         if (!post.title.length || !post.contents.length ){
@@ -34,39 +36,67 @@ router.post('/posts', ( req, res ) => {
 )
 
 router.get('/posts/:id', ( req,res ) => {
-    const postId = req.body.id;
-    db.findById(postId)
-    .then(post => 
-        res.status(200).json(post)
-        )
-    .catch(err => console.log(err))
+    const { id } = req.params
+    db.findById(id)
+        .then(post => 
+            {if(post[0].id == id){
+                db.findById(id)
+                    .then(post => 
+                    res.status(200).json(post)
+                    )
+                    .catch(err => res.status(500).json({ error: "The post information could not be retrieved." }))
+                    }})
+        .catch(err => res.status(404).json({ message: "The post with the specified ID does not exist." }))
 })
 
 router.delete('/posts/:id', ( req, res ) => {
     const deleted = req.body.id
-    db.findById(deleted)
-    .then(post => 
-        res.status(200).json(post))
-    .catch(err => console.log(err))
+    const { id } =req.params
 
-    db.remove(deleted)
-    .then(deleted => 
-        res.status(200).json(deleted))
-    .catch(err => console.log(err))
+    db.findById(id)
+    .then(post => {
+        if(post[0].id == id){
+            db.remove(id)
+                .then(num => 
+                    res.status(200).json(`There was ${num} record deleted!` ))
+                .catch(err => res.status(500).json({ error: "The post could not be removed" }))
+            } else { res.status(200).json({ message: 'if test did not work properly'})}
+        }
+        )
+    .catch(err => res.status(404).json({ message: "The post with the specified ID does not exist." }))
+
+    
 })
 
 router.put('/posts/:id', ( req, res) => {
     const post = req.body;
     const postId = req.body.id;
     post.updated_at = Date();
+
     console.log(post)
 
-    db.update(postId, post)
-    .then(post => {if(post == 1){ res.status(200).json("You have updated this post!")
-        }else { res.status(400).json("This Post has not been updated")}
-        }
-    )
-    .catch(err => console.log(err))
+    if(post.title.length !== 0 && post.contents.length !== 0)
+        {
+        db.findById(postId)
+        .then(postx => {
+            if(postx[0].id == postId){
+                db.update(postId, post)
+                    .then(response => {
+                        if(response == 1){ res.status(200).json(post)
+                        } else { 
+                        res.status(200).json("This Post has not been updated")}})
+                    .catch(err => res.status(500).json({ error: "The post information could not be modified." }))
+                
+                } else { res.status(200).json({ message: 'if test did not work properly'})}
+            }
+            )
+        .catch(err => res.status(404).json({ message: "The post with the specified ID does not exist." }))
+    } else {
+        res.status(400).json({ errorMessage: "Please provide title and contents for the post." })
+    }
+
+
+    
 })
 
 module.exports = router

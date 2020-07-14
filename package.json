@@ -8,6 +8,9 @@
         "server": "nodemon index.js"
     },
     "dependencies": {
+        "client": "0.0.1",
+        "cors": "^2.8.5",
+        "create-react-app": "^3.4.1",
         "knex": "^0.21.1",
         "shortid": "^2.2.15",
         "sqlite3": "^5.0.0"
