@@ -8,7 +8,9 @@ export default function App() {
     const [ postEdit, setPostEdit] = useState({
         id:'',
         title:'',
-        contents:''
+        contents:'',
+        updated_at:'',
+        created_at: ''
     });
   
     const editHandler = e => {
@@ -25,10 +27,11 @@ export default function App() {
         .catch( err => console.log("Error", err.message, err.response));
       },[])
 
+console.log("Post to edit on Edit Page", postEdit)
 
 return (
     <div>
-     {postEdit.id !== 0  ? <EditCard postToEdit={postEdit}/>: null}
+     { postEdit.length > 0 && <EditCard postToEdit={postEdit}/>}
         <div>
             {posts && posts.map(post => 
             (<div  key={post.id}>
