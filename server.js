@@ -10,4 +10,9 @@ server.use(cors());
 server.use('/api', dbRouter)
 server.use('/api/posts', commentsRouter)
 
+server.get("/", (req, res) => {
+    const messageOfTheDay = process.env.MOTD || 'Hello WOrld';
+    res.status(200).json({ api: "up", motd: messageOfTheDay });
+  });
+
 module.exports = server;

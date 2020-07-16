@@ -5,12 +5,15 @@
     "private": true,
     "main": "index.js",
     "scripts": {
-        "server": "nodemon index.js"
+        "server": "nodemon index.js",
+        "start": "node index.js"
     },
     "dependencies": {
         "client": "0.0.1",
         "cors": "^2.8.5",
         "create-react-app": "^3.4.1",
+        "dotenv": "^8.2.0",
+        "env": "0.0.2",
         "knex": "^0.21.1",
         "shortid": "^2.2.15",
         "sqlite3": "^5.0.0"

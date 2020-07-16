@@ -16,8 +16,6 @@ router.post('/posts', ( req, res ) => {
     post.created_at = date;
     post.updated_at = date;
 
-    console.log(post)
-
     try{
         if (!post.title.length || !post.contents.length ){
         res.status(400).json({ errorMessage: "Please provide title and contents for the post."})
@@ -73,7 +71,6 @@ router.put('/posts/:id', ( req, res) => {
     const postId = req.body.id;
     post.updated_at = Date();
 
-    console.log(post)
 
     if(post.title.length !== 0 && post.contents.length !== 0)
         {
