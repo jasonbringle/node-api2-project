@@ -24,6 +24,7 @@ export default function App() {
   }
 
   async function asyncRefresh(){
+    // eslint-disable-next-line
     const result = await resolveAfter2Seconds()
     const windowRefresh = window.location.reload(true)
     console.log("You deleted it")
