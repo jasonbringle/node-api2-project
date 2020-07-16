@@ -9,7 +9,7 @@ export default function App() {
   
   const deleteHandler = (e) => {
     axios
-    .delete(`http://localhost:3000/api/posts/${e.target.id}`)
+    .delete(`https://jason-title-and-content-app.herokuapp.com/api/posts/${e.target.id}`)
     .then(res => setDeletedPost(res.data))
     .catch(err => console.log("Error", err.message));
     asyncRefresh()
@@ -19,7 +19,7 @@ export default function App() {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve('resolved');
-      }, 2000);
+      }, 1000);
     });
   }
 
@@ -33,7 +33,7 @@ export default function App() {
 
 useEffect(()=>{
   axios
-  .get("http://localhost:3000/api/posts")
+  .get("https://jason-title-and-content-app.herokuapp.com/api/posts")
   .then(res => setPosts(res.data))
   .catch( err => console.log("Error", err.message, err.response))
 },[deletedPost])

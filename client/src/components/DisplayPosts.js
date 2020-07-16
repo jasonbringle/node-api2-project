@@ -8,7 +8,7 @@ const [ posts, setPosts] = useState();
 
 useEffect(()=>{
   axios
-  .get("http://localhost:3000/api/posts")
+  .get("https://jason-title-and-content-app.herokuapp.com/api/posts")
   .then(res => setPosts(res.data))
   .catch( err => console.log("Error", err.message, err.response));
 },[])

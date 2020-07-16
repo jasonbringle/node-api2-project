@@ -8,7 +8,7 @@ function App() {
     created_at:'',
     updated_at:''
   })
-
+  
   const [ posts, setPosts] = useState();
   
   const changeHandler = e => {
@@ -21,25 +21,41 @@ function App() {
   const submitHandler = e => {
     e.preventDefault();
     axios
-    .post("http://localhost:3000/api/posts", info)
-    .then(res => console.log(res))
+    .post("https://jason-title-and-content-app.herokuapp.com/api/posts", info)
+    .then(res => asyncRefresh())
     .catch(err => console.log("Error", err.message));
-    window.location.reload(true)
+    
   }
 
 useEffect(()=>{
   axios
-  .get("http://localhost:3000/api/posts")
+  .get("https://jason-title-and-content-app.herokuapp.com/api/posts")
   .then(res => setPosts(res.data))
   .catch( err => console.log("Error", err.message, err.response));
 },[])
+
+function resolveAfter2Seconds() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('resolved');
+    }, 100);
+  });
+}
+
+async function asyncRefresh(){
+  // eslint-disable-next-line
+  const result = await resolveAfter2Seconds()
+  const windowRefresh = window.location.reload(true)
+  console.log("You deleted it")
+  return windowRefresh
+}
 
 return (
   <div>
       <div className="App" onSubmit={submitHandler}>
         <form >
           <input type='text' name='title' placeholder="Title" value={info.title}onChange={changeHandler}/>
-          <input type='text' name='contents' placeholder="contents" value={info.contents} onChange={changeHandler}/>
+          <input type='text' name='contents' placeholder="Contents" value={info.contents} onChange={changeHandler}/>
           <button>submit</button>
         </form>
       </div>

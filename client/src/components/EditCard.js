@@ -6,7 +6,7 @@ import '../App.css';
 export default function EditCard({postToEdit}) {
 
     const [ edit, setEdit] = useState(postToEdit[0])
-
+    
     const changeHandler = e => {
         setEdit({
             ...edit,
@@ -17,14 +17,27 @@ export default function EditCard({postToEdit}) {
     const editSubmit = e => {
         e.preventDefault();
         axios
-        .put(`http://localhost:3000/api/posts/${e.target.id}`, edit)
-        .then(res => res)
-        .catch(err => console.log("Error", err.message));
-        window.location.reload(true)
+        .put(`https://jason-title-and-content-app.herokuapp.com/api/posts/${e.target.id}`, edit)
+        .then(res => asyncRefresh())
+        .catch(err => alert("You didnt edit this properly sir!"));
+        
     }
 
-    console.log("Post to edit on Edit Card", edit)
-
+    function resolveAfter2Seconds() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve('resolved');
+        }, 500);
+      });
+    }
+  
+    async function asyncRefresh(){
+      // eslint-disable-next-line
+      const result = await resolveAfter2Seconds()
+      const windowRefresh = window.location.reload(true)
+      console.log("You deleted it")
+      return windowRefresh
+    }
 
 return (
     <div className='delete-box'>

@@ -1,8 +1,8 @@
 import React from 'react';
-import DisplayPosts from '../components/DisplayPosts';
-import EditPost from '../components/EditPost';
-import DeletePost from '../components/DeletePost';
-import CreatePost from '../components/CreatePost';
+import DisplayPosts from './DisplayPosts';
+import EditPost from './EditPost';
+import DeletePost from './DeletePost';
+import CreatePost from './CreatePost';
 
 import { BrowserRouter as Router,Route, Switch, Link } from "react-router-dom";
 

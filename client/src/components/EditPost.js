@@ -15,19 +15,18 @@ export default function App() {
   
     const editHandler = e => {
         axios
-        .get(`http://localhost:3000/api/posts/${e.target.id}`)
+        .get(`https://jason-title-and-content-app.herokuapp.com/api/posts/${e.target.id}`)
         .then(res => setPostEdit(res.data))
         .catch( err => console.log("Error", err.message, err.response))
     }
 
     useEffect(()=>{
         axios
-        .get("http://localhost:3000/api/posts")
+        .get("https://jason-title-and-content-app.herokuapp.com/api/posts")
         .then(res => setPosts(res.data))
         .catch( err => console.log("Error", err.message, err.response));
       },[])
 
-console.log("Post to edit on Edit Page", postEdit)
 
 return (
     <div>
